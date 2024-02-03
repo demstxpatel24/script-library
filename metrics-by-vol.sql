@@ -10,6 +10,12 @@ This script still needs to be enhanced with the following metrics:
 - number of primary survey questions answered 
 */
 
+/*metrics by volunteer*/
+-- neighbors (neighbor + voter I canvassed)
+-- friends (all other relationships except self and non-supporter)
+-- contacted
+-- primary survey question 
+
 with
 
 users as (
@@ -56,7 +62,7 @@ relat_type as (
 select
 
   nm_reach_user,
-  count(1) as n_relationships,
+  count(distinct id_reach_voter) as n_relationships,
   sum(ind_relat_neighb) as n_relat_neighbor,
   sum(ind_relat_friend) as n_relat_friend
 
