@@ -4,7 +4,7 @@ Metrics by Volunteer
 The goal of this script is to compute the number of relationships and contacts for each volunteer
 
 Currently, the following metrics are implemented:
-- number of relationships (total / neighbor / friend)
+- number of relationships (total / self / neighbor / friend)
 
 This script still needs to be enhanced with the following metrics:
 - number of primary survey questions answered 
@@ -46,6 +46,7 @@ relat_type as (
   select
     id as id_relat_type,
     name as nm_relat_type, 
+    case when name = 'Self' then 1 else 0 end as ind_relat_self,
     case
       when name in ('Neighbor','Voter I canvassed') 
       then 1 else 0 end as ind_relat_neighb,
@@ -63,6 +64,7 @@ select
 
   nm_reach_user,
   count(distinct id_reach_voter) as n_relationships,
+  sum(ind_relat_self) as n_relat_self,
   sum(ind_relat_neighb) as n_relat_neighbor,
   sum(ind_relat_friend) as n_relat_friend
 
