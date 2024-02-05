@@ -52,14 +52,14 @@ relat_type as (
 
 ),
 
-survey_support as (
+survey_plan as (
 
   select
     recorded_by_user_id as id_reach_user,
     reach_id as id_reach_voter,
-    1 as ind_response_support
+    1 as ind_response_plan
   from `reach-vote`.`reach_txpatel24_share`.`responses`
-  where question_id = '5W9GPQ6G'
+  where question_id = 'Z6QQBA6E'
   qualify row_number() over (partition by recorded_by_user_id, reach_id, question_id order by updated_on desc) = 1
 
 )
@@ -71,14 +71,14 @@ select
   sum(ind_relat_self) as n_relat_self,
   sum(ind_relat_neighb) as n_relat_neighbor,
   sum(ind_relat_friend) as n_relat_friend,
-  sum(ind_response_support) as n_response_support
+  sum(ind_response_plan) as n_response_plan
 
 from
 
   users
   left join relat using (id_reach_user)
   left join relat_type using (id_relat_type)
-  left join survey_support using (id_reach_user, id_reach_voter)
+  left join survey_plan using (id_reach_user, id_reach_voter)
 
 group by 1
 order by 2 desc
