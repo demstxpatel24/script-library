@@ -1,6 +1,15 @@
 import requests
+import pandas as pd
+import pandas_gbq
 
-## AUTHENTICATE ## 
+## GET DATA ##
+# TODO: add query 
+query = ''
+df_totag = pandas_gbq.read_gbq(sql, project_id=project_id)
+persons = df_totag.to_dict(orient = 'records')
+
+
+## AUTHENTICATE TO REACH ## 
 # TODO: reference API credentials from secrets
 
 creds_payload = {"username": reach_api_username, 
@@ -23,7 +32,6 @@ if tag_id == '':
 ## ADD TAGS ##
 # TODO: Connect to voting data 
 
-# persons = df_totag.to_dict(orient = 'records')
 # for now, just test with Taral!
 persons = [{'person_id':'29051875', 'person_id_type':'Voterfile VAN ID'}]
 
