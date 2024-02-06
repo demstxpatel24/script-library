@@ -58,9 +58,17 @@ survey_plan as (
     recorded_by_user_id as id_reach_user,
     reach_id as id_reach_voter,
     1 as ind_response_plan
-  from `reach-vote`.`reach_txpatel24_share`.`responses`
-  where question_id = 'Z6QQBA6E'
-  qualify row_number() over (partition by recorded_by_user_id, reach_id, question_id order by updated_on desc) = 1
+  from 
+    `reach-vote.reach_txpatel24_share.responses` as res
+    inner join 
+    `reach-vote.reach_txpatel24_share.question_choice_response_associations` as res_assoc
+    on res.id = res_assoc.response_id
+  where
+    choice_id in (
+    '5e00ff99-e01d-40f6-8a0d-878af4d6aff2',
+    '693049d0-f3a8-47f4-af87-b450cf08403a',
+    '5e00ff99-e01d-40f6-8a0d-878af4d6aff2')
+  qualify row_number() over (partition by recorded_by_user_id, reach_id, question_id order by res.updated_on desc) = 1
 
 )
 
